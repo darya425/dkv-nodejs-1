@@ -19,7 +19,7 @@ function getContactById(contactId) {
     }
     const contacts = JSON.parse(data);
     contacts.map((item) => {
-      if (item.id === contactId) {
+      if (item.id === Number(contactId)) {
         console.table(item);
       }
     });
@@ -61,7 +61,7 @@ function removeContact(contactId) {
       console.log(error);
     }
     const contacts = JSON.parse(data);
-    contacts.filter((contact) => contact.id != contactId);
+    contacts.filter((contact) => contact.id != Number(contactId));
     console.log(`Contact ${contactId} was deleted!`);
   });
 }
