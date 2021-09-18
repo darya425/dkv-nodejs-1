@@ -1,34 +1,33 @@
-const fs = require("fs");
+const fs = require("fs/promises");
 const path = require("path");
 
 const contactsPath = path.resolve("db/contacts.json");
 
-function listContacts() {
-  fs.readFile(contactsPath, "utf8", (error, data) => {
-    if (error) {
-      console.log(error);
-    }
+const listContacts = async () => {
+  try {
+    const data = await fs.readFile(contactsPath, "utf8");
     console.table(JSON.parse(data));
-  });
-}
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-function getContactById(contactId) {
-  fs.readFile(contactsPath, "utf8", (error, data) => {
-    if (error) {
-      console.log(error);
-    }
+const getContactById = async (contactId) => {
+  try {
+    const data = await fs.readFile(contactsPath, "utf8");
     const contacts = JSON.parse(data);
     contacts.map((item) => {
       if (item.id === Number(contactId)) {
         console.table(item);
       }
     });
-  });
-}
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-function addContact(name, email, phone) {
+const addContact = async (name, email, phone) => {
   const contact = {
-    id: Math.random(),
     name,
     email,
     phone,
@@ -36,59 +35,36 @@ function addContact(name, email, phone) {
 
   const contactsNew = [];
 
-  fs.readFile(contactsPath, "utf8", (error, data) => {
-    if (error) {
-      console.log(error);
-    }
-    const contacts = JSON.parse(data);
-    contacts.map((item) => {
-      contactsNew.push(item);
-    });
-    contactsNew.push(contact);
-    fs.writeFile(contactsPath, JSON.stringify(contactsNew), (error) => {
-      if (error) {
-        console.log(error);
-      }
-      console.log(`contact ${contact.name} was added!`);
-      console.table(contact);
-    });
-  });
-}
+  try {
+    const data = await fs.readFile(contactsPath, "utf8");
+    const contacts = await JSON.parse(data);
+    contactsNew.push(...contacts, contact);
+    await fs.writeFile(contactsPath, JSON.stringify(contactsNew));
 
-function removeContact(contactId) {
-  fs.readFile(contactsPath, "utf8", (error, data) => {
-    if (error) {
-      console.log(error);
-    }
-    const contacts = JSON.parse(data);
-    contacts.filter((contact) => contact.id != Number(contactId));
-    console.log(`Contact ${contactId} was deleted!`);
-  });
-}
-
-function invokeAction({ action, id, name, email, phone }) {
-  switch (action) {
-    case "list":
-      listContacts();
-      break;
-
-    case "get":
-      getContactById(id);
-      break;
-
-    case "add":
-      addContact(name, email, phone);
-      break;
-
-    case "remove":
-      removeContact(id);
-      break;
-
-    default:
-      console.warn("\x1B[31m Unknown action type!");
+    console.log(`contact ${contact.name} was added!`);
+    console.table(contact);
+  } catch (error) {
+    console.log(error);
   }
-}
+};
+
+const removeContact = async (contactId) => {
+  try {
+    const data = await fs.readFile(contactsPath, "utf8");
+    const contacts = await JSON.parse(data);
+    const filteredContacts = await contacts.filter(
+      (contact) => contact.id != Number(contactId)
+    );
+    console.log(`Contact ${contactId} was deleted!`);
+    console.table(filteredContacts);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 module.exports = {
-  invokeAction,
+  listContacts,
+  getContactById,
+  addContact,
+  removeContact,
 };
