@@ -1,0 +1,27 @@
+{
+  "name": "dkv-nodejs-1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index",
+    "start:dev": "nodemon index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/darya425/dkv-nodejs-1.git"
+  },
+  "author": "Daria Kuleshova <daria.kuleshova425@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/darya425/dkv-nodejs-1/issues"
+  },
+  "homepage": "https://github.com/darya425/dkv-nodejs-1#readme",
+  "dependencies": {
+    "commander": "^8.2.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  }
+}
