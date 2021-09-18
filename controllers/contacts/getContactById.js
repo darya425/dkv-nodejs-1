@@ -1,17 +1,13 @@
-import fs from "fs/promises";
-import path from "path";
-
-const contactsPath = path.resolve("db/contacts.json");
+import { listContacts } from "./index.js";
 
 export const getContactById = async (contactId) => {
   try {
-    const data = await fs.readFile(contactsPath, "utf8");
-    const contacts = JSON.parse(data);
-    contacts.map((item) => {
-      if (item.id === Number(contactId)) {
-        console.table(item);
-      }
-    });
+    const contacts = await listContacts();
+    const contact = contacts.find((item) => item.id === Number(contactId));
+    if (!contact) {
+      console.log(`Contact by id ${contactId} not found!`);
+    }
+    return contact;
   } catch (error) {
     console.log(error);
   }

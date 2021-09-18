@@ -20,7 +20,8 @@
   },
   "homepage": "https://github.com/darya425/dkv-nodejs-1#readme",
   "dependencies": {
-    "commander": "^8.2.0"
+    "commander": "^8.2.0",
+    "shortid": "^2.2.16"
   },
   "devDependencies": {
     "nodemon": "^2.0.12"

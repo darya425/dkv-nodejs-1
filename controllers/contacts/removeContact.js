@@ -1,17 +1,16 @@
 import fs from "fs/promises";
 import path from "path";
+import { listContacts } from "./index.js";
 
 const contactsPath = path.resolve("db/contacts.json");
 
 export const removeContact = async (contactId) => {
   try {
-    const data = await fs.readFile(contactsPath, "utf8");
-    const contacts = await JSON.parse(data);
+    const contacts = await listContacts();
     const filteredContacts = await contacts.filter(
       (contact) => contact.id != Number(contactId)
     );
-    console.log(`Contact ${contactId} was deleted!`);
-    console.table(filteredContacts);
+    return filteredContacts;
   } catch (error) {
     console.log(error);
   }
